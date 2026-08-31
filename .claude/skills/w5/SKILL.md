@@ -2,6 +2,7 @@
 name: w5
 description: W5｜確定後の記録。外した仮説だけを記録し、制約カタログに集約する。案件完了後に使う。
 user_invocable: true
+user-invocable: true
 model: inherit
 ---
 

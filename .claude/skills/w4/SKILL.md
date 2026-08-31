@@ -2,6 +2,7 @@
 name: w4
 description: W4｜レビュー依頼の文面作成。先輩の関与点。未解明のみを持ち込み、必ず推測をつけて聞く。手段そのものを聞く質問文を検出して書き直させる。
 user_invocable: true
+user-invocable: true
 model: inherit
 ---
 

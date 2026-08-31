@@ -2,6 +2,7 @@
 name: w0
 description: W0｜受領と復元。指示を自分の言葉で書き直し、要件・制約・資料の所在を確定する。AIは要件抽出の補助のみ行い、書かれていない項目を勝手に埋めない。
 user_invocable: true
+user-invocable: true
 model: inherit
 ---
 

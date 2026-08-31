@@ -2,6 +2,7 @@
 name: w3
 description: W3｜仕分け。W2で出た問いを確認済み／仮説／未解明の3つに分ける、手順の中核工程。AI由来の記述を確認済みに混入させない。仮説には対抗仮説と反証条件を必須にする。
 user_invocable: true
+user-invocable: true
 model: inherit
 ---
 

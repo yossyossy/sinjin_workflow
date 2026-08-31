@@ -15,6 +15,8 @@ import wf  # noqa: E402
 import wf_hook  # noqa: E402
 from wf_lint import lint_file  # noqa: E402
 
+wf.force_utf8()
+
 
 def main() -> None:
     try:

@@ -2,6 +2,7 @@
 name: w2
 description: W2｜並べる。比較対象を3つ以上集め、W1の案との差分を列挙（判定しない）し、問いに変換する。対抗仮説の列挙や誤読チェックにAIを使う工程。
 user_invocable: true
+user-invocable: true
 model: inherit
 ---
 

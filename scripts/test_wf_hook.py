@@ -17,6 +17,9 @@ LINT_HOOK = ROOT / ".claude" / "hooks" / "lint_after_write.py"
 
 
 def _run_hook(script: Path, payload: dict) -> subprocess.CompletedProcess:
+    env = dict(__import__("os").environ)
+    env["PYTHONIOENCODING"] = "utf-8"
+    env["PYTHONUTF8"] = "1"
     return subprocess.run(
         [sys.executable, str(script)],
         input=json.dumps(payload),
@@ -25,6 +28,7 @@ def _run_hook(script: Path, payload: dict) -> subprocess.CompletedProcess:
         cwd=str(ROOT),
         capture_output=True,
         check=False,
+        env=env,
     )
 
 
