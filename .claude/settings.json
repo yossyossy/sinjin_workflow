@@ -1,0 +1,39 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|NotebookEdit|Bash|PowerShell|create_file|replace_string_in_file|multi_replace_string_in_file|edit_notebook_file|editFiles|run_in_terminal",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/gate_write.py",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|NotebookEdit|create_file|replace_string_in_file|multi_replace_string_in_file|edit_notebook_file|editFiles",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/lint_after_write.py",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/inject_status.py",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
