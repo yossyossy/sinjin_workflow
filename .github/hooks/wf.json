@@ -1,0 +1,37 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "type": "command",
+        "command": "python .claude/hooks/gate_write.py",
+        "timeout": 15,
+        "env": {
+          "PYTHONUTF8": "1",
+          "PYTHONIOENCODING": "utf-8"
+        }
+      }
+    ],
+    "PostToolUse": [
+      {
+        "type": "command",
+        "command": "python .claude/hooks/lint_after_write.py",
+        "timeout": 15,
+        "env": {
+          "PYTHONUTF8": "1",
+          "PYTHONIOENCODING": "utf-8"
+        }
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "type": "command",
+        "command": "python .claude/hooks/inject_status.py",
+        "timeout": 15,
+        "env": {
+          "PYTHONUTF8": "1",
+          "PYTHONIOENCODING": "utf-8"
+        }
+      }
+    ]
+  }
+}

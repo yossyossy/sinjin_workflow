@@ -16,6 +16,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "scripts"
 import wf  # noqa: E402
 import wf_hook  # noqa: E402
 
+wf.force_utf8()
+
 WRITE_INDICATOR = re.compile(
     r"(>>?[^>]|Set-Content|Out-File|Add-Content|\bcp\b|\bcopy\b|\bmv\b|\bmove\b|"
     r"open\([^)]*['\"]a?w['\"]|\.write\(|\bWrite-Output\b\s*\|.*Out-File)",

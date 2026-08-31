@@ -2,6 +2,7 @@
 name: wf-status
 description: 作業中の案件の進捗（W0〜W5の記入状況）を表示する。全案件の一覧表示にも使う。
 user_invocable: true
+user-invocable: true
 model: inherit
 ---
 

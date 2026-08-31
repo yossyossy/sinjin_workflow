@@ -1,7 +1,8 @@
 ---
 name: w1
-description: W1｜先出し。他人（AI含む）に相談する前に、本人が自分の方針案を書く工程。AIはこのファイルを書かない・書けない（ハーネスがWrite/Editを拒否する）。
+description: W1｜先出し。他人（AI含む）に相談する前に、本人が自分の方針案を書く工程。AIはこのファイルを書かない・書けない（ハーネスが書き込みを拒否する）。
 user_invocable: true
+user-invocable: true
 model: inherit
 ---
 
@@ -16,7 +17,7 @@ model: inherit
 1. 作業中の案件の `W1_先出し.md` を開いて**ユーザーに見せるだけ**。
 2. 次のテンプレ項目を口頭で確認させる：既存実績の理解／自分ならこうする／踏襲する部分・変える部分（両方）／理由／採らなかった案／迷っている点。
 3. ユーザーに「これは自分の手で書いてください。15分で、完成度は問いません」と伝える。
-4. **このファイルへの書き込み（Write/Edit）は行わない。** 試みてもハーネスの hook が拒否する（`.claude/hooks/block_w1_write.py`）。拒否された場合はその旨をそのまま伝え、迂回しようとしない。
+4. **このファイルへの書き込みは行わない**（Claude の Write/Edit、Copilot の create_file / replace_string_in_file / editFiles を含む）。試みてもハーネスの hook（`.claude/hooks/gate_write.py`）が拒否する。拒否された場合はその旨をそのまま伝え、迂回しようとしない。
 5. ユーザーが書き終えたと言ったら `python scripts/wf_lint.py W1` を実行し、結果を見せる（このコマンド実行と結果表示はAIが行ってよい。書くのはユーザー）。
 
 ## このスキルでAIがやってよい唯一の補助

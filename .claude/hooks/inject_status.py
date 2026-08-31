@@ -12,6 +12,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "scripts"))
 import wf  # noqa: E402
 
+wf.force_utf8()
+
 
 def main() -> None:
     try:
@@ -46,10 +48,12 @@ def main() -> None:
     else:
         lines.append("W0〜W5すべて記入済み。`python scripts/wf_archive.py` での完了処理を促してよい。")
 
+    ctx = "\n".join(lines)
     print(json.dumps({
+        "systemMessage": ctx,
         "hookSpecificOutput": {
             "hookEventName": "UserPromptSubmit",
-            "additionalContext": "\n".join(lines),
+            "additionalContext": ctx,
         }
     }, ensure_ascii=False))
     sys.exit(0)

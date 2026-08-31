@@ -2,6 +2,7 @@
 name: wf-new
 description: 新しい案件を立ち上げ、W0〜W5のテンプレを配置して作業中案件に設定する。案件遂行ワークフローの入口。
 user_invocable: true
+user-invocable: true
 model: inherit
 ---
 

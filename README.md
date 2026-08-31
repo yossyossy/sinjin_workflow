@@ -1,10 +1,12 @@
 # sinjin_workflow
 
-[案件遂行ワークフロー（実務運用版）](言語化ワークフロー_実務組み込み版.md)を、Claude Code のハーネス（skills / hooks / リンタ）で実行するための仕組み。
+[案件遂行ワークフロー（実務運用版）](言語化ワークフロー_実務組み込み版.md)を、Claude Code と GitHub Copilot のハーネス（skills / hooks / リンタ）で実行するための仕組み。
 
 手順書そのものは読み物として残しつつ、ここでは「AIに何をさせないか」を構造で担保する。
 
 ## 使い方
+
+チャットで `/` からスキルを起動する（Claude Code / GitHub Copilot 共通）。
 
 ```
 /wf-new     案件を立ち上げる（cases/ 配下に W0〜W5 のテンプレを配置）
@@ -26,18 +28,24 @@ python scripts/wf_status.py [--list]
 python scripts/wf_archive.py   # W5完了後、knowledge/制約カタログ.md に集約
 ```
 
+GitHub Copilot では Agent モードを使い、hooks が有効であること（Preview）。組織ポリシーで hooks が無効なら、W1 ブロックはスキルと [.github/copilot-instructions.md](.github/copilot-instructions.md) に落ちる。リンタは CLI で回せる。
+
 ## 構成
 
 | パス | 役割 |
 |---|---|
 | `templates/W*.md` | 各工程のテンプレ本体 |
 | `scripts/wf.py` | 共通ロジック（案件解決・記入判定・転記検出） |
+| `scripts/wf_hook.py` | Claude / Copilot のツール名とペイロード差の吸収 |
 | `scripts/wf_lint.py` | 様式チェック（AI非依存。単体で動く） |
 | `scripts/wf_new.py` / `wf_status.py` / `wf_archive.py` | 案件のライフサイクル管理 |
-| `.claude/skills/w0`〜`w5`, `wf-new`, `wf-status` | slash command 化 |
+| `.claude/skills/w0`〜`w5`, `wf-new`, `wf-status` | slash command（両ハーネスが読む） |
 | `.claude/hooks/gate_write.py` | **W1への書き込みを常時拒否**。W2〜W5は前工程未着手なら拒否（順序ゲート） |
 | `.claude/hooks/lint_after_write.py` | 書き込み直後に自動リンタを実行し、結果をAIへ返す |
 | `.claude/hooks/inject_status.py` | 会話の各ターンに、作業中の案件と進捗を注入 |
+| `.claude/settings.json` | Claude Code 向け hook 定義 |
+| `.github/hooks/wf.json` | Copilot 向け hook 定義（同じスクリプトを呼ぶ） |
+| `.github/copilot-instructions.md` | Copilot 向けの常時指示 |
 | `cases/` | 案件データ（案件ごとに1ディレクトリ、`.current` が作業中案件） |
 | `knowledge/制約カタログ.md` | W5の蓄積（完了案件から自動集約） |
 
@@ -47,3 +55,5 @@ python scripts/wf_archive.py   # W5完了後、knowledge/制約カタログ.md �
 - **リンタはAI非依存。** 手順書11章「AIが使えない環境でも成立する」を満たすため、Python標準ライブラリのみで動く。
 - **W3の「確認済み」への AI由来記述の混入**は `[AI]` マーカーとリンタで検出する。
 - **W0の転記検出**は `指示文.md`（原文）との一致率で機械的に測る。
+- **ツール差は `scripts/wf_hook.py` で吸収する。** Claude の Write/Edit と Copilot の create_file / editFiles などを同じゲートに通す。
+- **hook の二重実行を避ける。** Copilot は `.github/hooks` を使い、ワークスペース設定で `.claude/settings.json` の読み込みを切る。Claude Code は従来どおり `.claude/settings.json` を使う。
